@@ -1,8 +1,6 @@
 'use strict'
 const passport = require("passport");
 
-
-
 const findUserByFbID = (req, res, next) => {
   return new Promise((resolve, reject) => {
     let User = req.app.get('models').User;
@@ -18,7 +16,6 @@ const findUserByFbID = (req, res, next) => {
 }
 
 module.exports.getUsers = (req, res, next) => {
-  // console.log(req.user);
   findUserByFbID(req, res, next)
     .then(user => {
       res.status(200).json(user);
@@ -26,10 +23,14 @@ module.exports.getUsers = (req, res, next) => {
 }
 
 module.exports.addDefaultLocation = (req, res, next) => {
+  let default_lat = req.body.default_lat;
+  let default_lng = req.body.default_lng;
+  console.log('am i here?')
   findUserByFbID(req, res, next)
   .then(user=>{
-    user.updateAttributes({ default_location: req.body.default_location })
-
-  })
+    return user.updateAttributes({ default_lat:default_lat, default_lng:default_lng})
+  }).then(user=>{
+    res.status(200).json(user);
+  });
 
 }

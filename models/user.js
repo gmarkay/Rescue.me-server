@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define('User', {
     fb_id: DataTypes.STRING,
     display_name: DataTypes.STRING,
-    default_location:DataTypes.STRING
+    default_lat:DataTypes.DECIMAL,
+    default_lng:DataTypes.DECIMAL
+
   }, {});
   User.associate = function (models) {
     User.hasMany(models.Vehicle, {

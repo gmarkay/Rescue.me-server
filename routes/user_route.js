@@ -14,9 +14,9 @@ const {
 const {isLoggedIn} = require('../controllers/authCtrl');
 
 
-router.get('/profile', getUsers);
+router.get('/profile', isLoggedIn, getUsers);
 
-// router.patch('/addlocation', isLoggedIn, addDefaultLocation);
+router.patch('/addlocation', isLoggedIn, addDefaultLocation);
 
 
 module.exports = router;

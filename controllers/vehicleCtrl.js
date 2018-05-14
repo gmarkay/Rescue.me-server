@@ -1,44 +1,56 @@
 const findUserByFbID = (req, res, next) => {
-  return new Promise((resolve, reject) => {
-    let User = req.app.get('models').User;
-    User.findOne({
-      where: {
-        fb_id: req.user.id
-      }
-    })
-    .then(user=>{
-      resolve(user);
-    })
-  })
+
 }
 
-// module.exports.getVehicles = (req, res, next) => {
+module.exports.getVehicles = (req, res, next) => {
+  let user_id;
+  let {User, Vehicle} = req.app.get('models');
 
-//   findUserByFbID(req, res, next)
-//   .then(user=>{
-//     let user_id = user.id
-//     return 
-//   })
+   User.findOne({
+    where: {
+      fb_id: req.user.id
+    }
+  }).then(user => {
+    user_id = user.id;
+    return Vehicle.findAll({
+      where: {
+        userId: user_id
+      }
+    })
+  }).then(cars => {
+    console.log(cars, 'cars');
+    res.status(200).json(cars);
 
-// }
+  })
 
 
-module.exports.addVehicle = (req, res, next)=>{
-  let Vehicle = req.app.get('models').Vehicle;
+}
 
-  findUserByFbID(req, res, next)
-  .then(user=>{
+
+module.exports.addVehicle = (req, res, next) => {
+  let {User, Vehicle} = req.app.get('models');
+  console.log(req.body, 'body before then');
+
+  User.findOne({
+    where: {
+      fb_id: req.user.id
+    }
+  }).then(user => {
+    user_id = user.id;
+    console.log(req.body, 'body in then');
+
     return Vehicle.create({
-      userId: user.id,
-      make: "Subaru",
-      model: "Outback",
-      color: "blue",
-      plateNumber: "y44 dze",
+      userId: user_id,
+      make: req.body.make,
+      model: req.body.model,
+      color: req.body.color,
+      plateNumber: req.body.plateNumber
     })
   }).then(newVeh => {
     res.status(201).json(newVeh);
   }).catch((err) => {
     next(err);
   })
+
 
 }

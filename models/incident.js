@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    description: DataTypes.STRING,
-    location: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    location_lat: DataTypes.DECIMAL,
+    location_lng: DataTypes.DECIMAL,
     locationDescription: DataTypes.STRING,
     date: DataTypes.STRING,
     resolved: DataTypes.BOOLEAN

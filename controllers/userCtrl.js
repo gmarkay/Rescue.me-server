@@ -1,4 +1,5 @@
 'use strict'
+
 const passport = require("passport");
 
 const findUserByFbID = (req, res, next) => {
@@ -21,9 +22,9 @@ module.exports.getUsers = (req, res, next) => {
       res.status(200).json(user);
     })
 }
-module.exports.addDefaultLocation = ({app, query:{user_id}, body:{default_lat, default_lng}}, res, next) => {
+module.exports.addDefaultLocation = ({app, query:{userId}, body:{default_lat, default_lng}}, res, next) => {
   let User = app.get('models').User;
-  User.findById(user_id)
+  User.findById(userId)
   .then(user=>{
     return user.updateAttributes({ default_lat, default_lng})
   }).then(updatedUser=>{

@@ -1,16 +1,10 @@
-const findUserByFbID = (req, res, next) => {
+'use strict';
 
-}
-
-module.exports.getVehicles = ({app, query:{user_id}}, res, next) => {
+module.exports.getVehicles = ({app, query:{userId}}, res, next) => {
   let Vehicle = app.get('models').Vehicle;
-  console.log(user_id, 'query');
-  // console.log(req.params, 'qrstuv');
-  // console.log(req.body, 'hijkl')
-
     Vehicle.findAll({
       where: {
-        userId: user_id
+        userId: userId
       }
     }).then(cars => {
       console.log(cars, 'cars');
@@ -18,13 +12,11 @@ module.exports.getVehicles = ({app, query:{user_id}}, res, next) => {
     })
 }
 
-module.exports.addVehicle = ({app, query:{user_id}, body: { make, model, color, plateNumber }},  res, next) => {
+module.exports.addVehicle = ({app, query:{userId}, body: { make, model, color, plateNumber }},  res, next) => {
   let Vehicle = app.get('models').Vehicle;
-  console.log(user_id, 'id')
-  console.log(make, model, color, plateNumber, 'body');
 
   Vehicle.create({
-    user_id,
+    userId,
     make,
     model,
     color,
@@ -34,6 +26,5 @@ module.exports.addVehicle = ({app, query:{user_id}, body: { make, model, color, 
   }).catch((err) => {
     next(err);
   })
-
 
 }

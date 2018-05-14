@@ -21,16 +21,14 @@ module.exports.getUsers = (req, res, next) => {
       res.status(200).json(user);
     })
 }
-
-module.exports.addDefaultLocation = (req, res, next) => {
-  let default_lat = req.body.default_lat;
-  let default_lng = req.body.default_lng;
-  console.log('am i here?')
-  findUserByFbID(req, res, next)
+module.exports.addDefaultLocation = ({app, query:{user_id}, body:{default_lat, default_lng}}, res, next) => {
+  let User = app.get('models').User;
+  User.findById(user_id)
   .then(user=>{
-    return user.updateAttributes({ default_lat:default_lat, default_lng:default_lng})
-  }).then(user=>{
-    res.status(200).json(user);
-  });
-
+    return user.updateAttributes({ default_lat, default_lng})
+  }).then(updatedUser=>{
+    res.status(200).json(updatedUser);
+  }).catch(err=>{
+    console.log(err);
+  })
 }

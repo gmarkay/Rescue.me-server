@@ -14,7 +14,6 @@ module.exports.getVehicles = ({app, query:{userId}}, res, next) => {
 
 module.exports.addVehicle = ({app, query:{userId}, body: { make, model, color, plateNumber }},  res, next) => {
   let Vehicle = app.get('models').Vehicle;
-
   Vehicle.create({
     userId,
     make,

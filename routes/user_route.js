@@ -8,15 +8,19 @@ const passport = require("passport");
 
 
 const {
-  getUsers, addDefaultLocation
+  getUsers, addDefaultLocation, saveUserLocation, getUserLocation
 } = require('../controllers/userCtrl');
 
 const {isLoggedIn} = require('../controllers/authCtrl');
 
 
-router.get('/profile', getUsers);
+router.get('/profile', isLoggedIn, getUsers);
 
-// router.patch('/addlocation', isLoggedIn, addDefaultLocation);
+router.get('/userLocation', getUserLocation);
+
+router.patch('/addCurrentLocation', isLoggedIn, saveUserLocation);
+
+router.patch('/addlocation', isLoggedIn, addDefaultLocation);
 
 
 module.exports = router;

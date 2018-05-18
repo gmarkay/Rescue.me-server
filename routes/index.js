@@ -6,6 +6,6 @@ const router = Router();
 router.use(require('./auth_route'));
 router.use(require('./user_route'));
 router.use(require('./vehicle_route'));
-
+router.use(require('./incident_route'));
 
 module.exports = router;

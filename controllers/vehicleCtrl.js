@@ -1,40 +1,25 @@
-const findUserByFbID = (req, res, next) => {
-  return new Promise((resolve, reject) => {
-    let User = req.app.get('models').User;
-    User.findOne({
+'use strict';
+
+module.exports.getVehicles = ({app, query:{userId}}, res, next) => {
+  let Vehicle = app.get('models').Vehicle;
+    Vehicle.findAll({
       where: {
-        fb_id: req.user.id
+        userId: userId
       }
+    }).then(cars => {
+      console.log(cars, 'cars');
+      res.status(200).json(cars);
     })
-    .then(user=>{
-      resolve(user);
-    })
-  })
 }
 
-// module.exports.getVehicles = (req, res, next) => {
-
-//   findUserByFbID(req, res, next)
-//   .then(user=>{
-//     let user_id = user.id
-//     return 
-//   })
-
-// }
-
-
-module.exports.addVehicle = (req, res, next)=>{
-  let Vehicle = req.app.get('models').Vehicle;
-
-  findUserByFbID(req, res, next)
-  .then(user=>{
-    return Vehicle.create({
-      userId: user.id,
-      make: "Subaru",
-      model: "Outback",
-      color: "blue",
-      plateNumber: "y44 dze",
-    })
+module.exports.addVehicle = ({app, query:{userId}, body: { make, model, color, plateNumber }},  res, next) => {
+  let Vehicle = app.get('models').Vehicle;
+  Vehicle.create({
+    userId,
+    make,
+    model,
+    color,
+    plateNumber
   }).then(newVeh => {
     res.status(201).json(newVeh);
   }).catch((err) => {

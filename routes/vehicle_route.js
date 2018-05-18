@@ -7,13 +7,13 @@ const router = Router();
 const passport = require("passport");
 
 const {
- addVehicle
+ addVehicle, getVehicles
 } = require('../controllers/vehicleCtrl');
 
 const {isLoggedIn} = require('../controllers/authCtrl');
 
 
-// router.get('/vehicles', isLoggedIn, getVehicles);
+router.get('/vehicles', isLoggedIn, getVehicles);
 
 router.post('/newCar', isLoggedIn, addVehicle);
 

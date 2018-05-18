@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   var Incident = sequelize.define('Incident', {
     id: {
@@ -7,8 +8,9 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    description: DataTypes.STRING,
-    location: DataTypes.STRING,
+    description: DataTypes.TEXT,
+    location_lat: DataTypes.DECIMAL,
+    location_lng: DataTypes.DECIMAL,
     locationDescription: DataTypes.STRING,
     date: DataTypes.STRING,
     resolved: DataTypes.BOOLEAN
@@ -17,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     Incident.hasMany(models.Report, {
       foreignKey: 'incidentId'
     });
+    Incident.belongsTo(models.User, {foreignKey: 'UserId', as: 'User'})
+    Incident.belongsTo(models.User, {foreignKey: 'rescuerId', as: 'rescuer'})
+
   };
   return Incident;
 };

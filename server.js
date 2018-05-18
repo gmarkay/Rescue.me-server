@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 const passport = require('passport');
+const bodyParser = require("body-parser");
+
 // const FacebookStrategy = require('passport-facebook').Strategy;
 const routes = require('./routes');
 const { loginStrat } = require('./config/authConfig');
@@ -25,7 +27,9 @@ app.use(function(req, res, next) {
 });
 
 
-app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.set('models', require('./models'));
 app.use(require('express-session')({ secret: 'AAAA', resave: true, saveUninitialized: true }));
 
